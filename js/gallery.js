@@ -64,11 +64,16 @@ const images = [
   },
 ];
 
-const gallery = document.querySelector(".gallery");
+document.addEventListener("DOMContentLoaded", () => {
+  const gallery = document.querySelector(".gallery");
 
-const galleryMarkup = images
-  .map(
-    ({ preview, original, description }) => `
+  if (!gallery) {
+    return;
+  }
+
+  const galleryMarkup = images
+    .map(
+      ({ preview, original, description }) => `
       <li class="gallery-item">
         <a class="gallery-link" href="${original}">
           <img
@@ -80,24 +85,25 @@ const galleryMarkup = images
         </a>
       </li>
     `,
-  )
-  .join("");
+    )
+    .join("");
 
-gallery.insertAdjacentHTML("beforeend", galleryMarkup);
+  gallery.insertAdjacentHTML("beforeend", galleryMarkup);
 
-gallery.addEventListener("click", (event) => {
-  const link = event.target.closest(".gallery-link");
+  gallery.addEventListener("click", (event) => {
+    const link = event.target.closest(".gallery-link");
 
-  if (!link) {
-    return;
-  }
+    if (!link) {
+      return;
+    }
 
-  event.preventDefault();
+    event.preventDefault();
 
-  const image = link.querySelector(".gallery-image");
-  const instance = basicLightbox.create(`
-    <img src="${image.dataset.source}" alt="${image.alt}" />
-  `);
+    const image = link.querySelector(".gallery-image");
+    const instance = basicLightbox.create(`
+      <img src="${image.dataset.source}" alt="${image.alt}" />
+    `);
 
-  instance.show();
+    instance.show();
+  });
 });
